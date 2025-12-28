@@ -227,19 +227,7 @@ def handle_link_step(message):
     url = message.text.strip()
     
     if not url.startswith("http"):
-        bot.reply_to(
-            message, 
-            "━━━━━━━━━━━━━━━━━━\n"
-            "🔵 **THÔNG BÁO**\n"
-            "━━━━━━━━━━━━━━━━━━\n\n"
-            "👋 Chào bạn!\n\n"
-            "💡 Vui lòng gửi link cần bypass\n"
-            "(Bắt đầu bằng http:// hoặc https://)\n\n"
-            "━━━━━━━━━━━━━━━━━━\n"
-            "📝 Gõ /start để xem hướng dẫn",
-            parse_mode="Markdown"
-        )
-        return
+        return  # Im lặng, không reply (tránh spam trong nhóm)
 
     # Gửi tin nhắn hỏi key và chuyển sang bước tiếp theo
     msg = bot.reply_to(
