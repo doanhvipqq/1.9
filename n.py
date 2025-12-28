@@ -229,18 +229,40 @@ def handle_link_step(message):
     if not url.startswith("http"):
         return  # Im lặng, không reply (tránh spam trong nhóm)
 
-    # Gửi tin nhắn hỏi key và chuyển sang bước tiếp theo
-    msg = bot.reply_to(
-        message, 
-        "━━━━━━━━━━━━━━━━━━\n"
-        "🔑 **YÊU CẦU API KEY**\n"
-        "━━━━━━━━━━━━━━━━━━\n\n"
-        "📝 Vui lòng nhập API Key AntiCaptcha:\n\n"
-        "🔒 _Tin nhắn sẽ được xóa tự động để bảo mật_\n"
-        "✅ Hoạt động cả trong nhóm chat\n\n"
-        "━━━━━━━━━━━━━━━━━━",
-        parse_mode="Markdown"
-    )
+    # Lấy ảnh anime ngẫu nhiên từ API
+    try:
+        anime_response = requests.get("https://adidaphat.site/images/anime", timeout=5)
+        anime_url = anime_response.url  # URL của ảnh sau khi redirect
+        
+        # Gửi ảnh anime kèm caption yêu cầu API key
+        msg = bot.send_photo(
+            message.chat.id,
+            anime_url,
+            caption=(
+                "━━━━━━━━━━━━━━━━━━\n"
+                "🔑 **YÊU CẦU API KEY**\n"
+                "━━━━━━━━━━━━━━━━━━\n\n"
+                "📝 Vui lòng nhập API Key AntiCaptcha:\n\n"
+                "🔒 _Tin nhắn sẽ được xóa tự động để bảo mật_\n"
+                "✅ Hoạt động cả trong nhóm chat\n\n"
+                "━━━━━━━━━━━━━━━━━━"
+            ),
+            parse_mode="Markdown",
+            reply_to_message_id=message.message_id
+        )
+    except:
+        # Nếu lỗi API ảnh, fallback về text thông thường
+        msg = bot.reply_to(
+            message, 
+            "━━━━━━━━━━━━━━━━━━\n"
+            "🔑 **YÊU CẦU API KEY**\n"
+            "━━━━━━━━━━━━━━━━━━\n\n"
+            "📝 Vui lòng nhập API Key AntiCaptcha:\n\n"
+            "🔒 _Tin nhắn sẽ được xóa tự động để bảo mật_\n"
+            "✅ Hoạt động cả trong nhóm chat\n\n"
+            "━━━━━━━━━━━━━━━━━━",
+            parse_mode="Markdown"
+        )
     
     # Đăng ký hàm tiếp theo sẽ xử lý tin nhắn trả lời của người dùng
     bot.register_next_step_handler(msg, step_receive_key, url)
