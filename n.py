@@ -231,7 +231,7 @@ def handle_link_step(message):
 
     # Lấy ảnh anime ngẫu nhiên từ API
     try:
-        anime_response = requests.get("https://adidaphat.site/images/anime", timeout=5)
+        anime_response = requests.get("https://api.otakugifs.xyz/gif?reaction=hug", timeout=5)
         anime_data = anime_response.json()  # Parse JSON response
         anime_url = anime_data.get("url")  # Lấy URL từ JSON
         
