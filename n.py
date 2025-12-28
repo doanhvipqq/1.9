@@ -232,7 +232,8 @@ def handle_link_step(message):
     # Lấy ảnh anime ngẫu nhiên từ API
     try:
         anime_response = requests.get("https://adidaphat.site/images/anime", timeout=5)
-        anime_url = anime_response.url  # URL của ảnh sau khi redirect
+        anime_data = anime_response.json()  # Parse JSON response
+        anime_url = anime_data.get("url")  # Lấy URL từ JSON
         
         # Gửi ảnh anime kèm caption yêu cầu API key
         msg = bot.send_photo(
